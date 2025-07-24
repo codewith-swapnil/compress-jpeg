@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 
 export default function App() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [files, setFiles] = useState([]);
   const [compressedFiles, setCompressedFiles] = useState([]);
   const [quality, setQuality] = useState(0.7);
@@ -128,24 +128,47 @@ export default function App() {
     }
   }, []);
 
+  // SEO alternate links for 10 languages
+  const seoLangs = [
+    { code: "en", label: "English" },
+    { code: "es", label: "Español" },
+    { code: "zh", label: "中文" },
+    { code: "hi", label: "हिन्दी" },
+    { code: "ar", label: "العربية" },
+    { code: "fr", label: "Français" },
+    { code: "ru", label: "Русский" },
+    { code: "pt", label: "Português" },
+    { code: "de", label: "Deutsch" },
+    { code: "ja", label: "日本語" }
+  ];
+
   return (
     <>
       <Helmet>
         <title>{t('title')} - Compress JPG Images Instantly</title>
         <meta name="description" content={t('meta_description', { defaultValue: "Compress JPG and JPEG images online for free. Drag & drop up to 20 images, adjust quality, preview results, and download compressed images or a ZIP archive. 100% privacy, no uploads." })} />
         <meta name="keywords" content="jpeg compressor, jpg compressor, image compression, online image compressor, compress jpg, compress jpeg, reduce image size, photo compressor, free image compressor" />
-        <link rel="canonical" href="https://yourdomain.com/" />
+        <link rel="canonical" href={`https://compress-jpeg-two.vercel.app/${i18n.language !== "en" ? i18n.language + "/" : ""}`} />
+        {/* SEO alternate hreflang for 10 languages */}
+        {seoLangs.map(l => (
+          <link
+            key={l.code}
+            rel="alternate"
+            hrefLang={l.code}
+            href={`https://compress-jpeg-two.vercel.app/${l.code === "en" ? "" : l.code + "/"}`}
+          />
+        ))}
         {/* OpenGraph */}
-        <meta property="og:title" content="Free Online JPEG Compressor - Compress JPG Images Instantly" />
-        <meta property="og:description" content="Compress JPG and JPEG images online for free. Drag & drop up to 20 images, adjust quality, preview results, and download compressed images or a ZIP archive. 100% privacy, no uploads." />
+        <meta property="og:title" content={t('title') + " - Compress JPG Images Instantly"} />
+        <meta property="og:description" content={t('meta_description', { defaultValue: "Compress JPG and JPEG images online for free. Drag & drop up to 20 images, adjust quality, preview results, and download compressed images or a ZIP archive. 100% privacy, no uploads." })} />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://yourdomain.com/" />
-        <meta property="og:image" content="https://yourdomain.com/og-image.png" />
+        <meta property="og:url" content={`https://compress-jpeg-two.vercel.app/${i18n.language !== "en" ? i18n.language + "/" : ""}`} />
+        <meta property="og:image" content="https://compress-jpeg-two.vercel.app/og-image.png" />
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Free Online JPEG Compressor - Compress JPG Images Instantly" />
-        <meta name="twitter:description" content="Compress JPG and JPEG images online for free. Drag & drop up to 20 images, adjust quality, preview results, and download compressed images or a ZIP archive. 100% privacy, no uploads." />
-        <meta name="twitter:image" content="https://yourdomain.com/og-image.png" />
+        <meta name="twitter:title" content={t('title') + " - Compress JPG Images Instantly"} />
+        <meta name="twitter:description" content={t('meta_description', { defaultValue: "Compress JPG and JPEG images online for free. Drag & drop up to 20 images, adjust quality, preview results, and download compressed images or a ZIP archive. 100% privacy, no uploads." })} />
+        <meta name="twitter:image" content="https://compress-jpeg-two.vercel.app/og-image.png" />
         {/* FAQ Structured Data */}
         <script type="application/ld+json">{JSON.stringify(faqJsonLd)}</script>
       </Helmet>
