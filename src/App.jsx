@@ -351,7 +351,7 @@ export default function App() {
           <ins className="adsbygoogle"
             style={{ display: "block" }}
             data-ad-client="ca-pub-40620600997"
-            data-ad-slot="1234567890"
+              data-ad-slot="6449429019"
             data-ad-format="auto"
             data-full-width-responsive="true"></ins>
         </div>
@@ -380,10 +380,13 @@ export default function App() {
           </p>
           {/* Google Ads Placeholder */}
           <div className="my-8 flex justify-center">
-            {/* Replace this div with your Google AdSense code */}
-            <div className="w-full max-w-md h-24 bg-gray-100 border border-gray-300 flex items-center justify-center rounded">
-              <span className="text-gray-400">[Google AdSense Ad Slot]</span>
-            </div>
+            {/* Google AdSense Responsive Ad */}
+            <ins className="adsbygoogle"
+              style={{ display: "block" }}
+              data-ad-client="ca-pub-4062060956100997"
+              data-ad-slot="2103167504"
+              data-ad-format="auto"
+              data-full-width-responsive="true"></ins>
           </div>
           {/* FAQ Section */}
           <article className="mt-8" itemScope itemType="https://schema.org/FAQPage">
