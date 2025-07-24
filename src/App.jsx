@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import imageCompression from "browser-image-compression";
 import JSZip from "jszip";
 import { Helmet } from "react-helmet";
@@ -118,6 +118,15 @@ export default function App() {
       }
     ]
   };
+
+  // Google Ads: trigger (re)render after mount for SPA
+  useEffect(() => {
+    if (window.adsbygoogle && window.adsbygoogle.loaded !== undefined) {
+      try {
+        window.adsbygoogle.push({});
+      } catch (e) {}
+    }
+  }, []);
 
   return (
     <>
@@ -336,6 +345,16 @@ export default function App() {
             </div>
           )}
         </section>
+
+        {/* Google AdSense Ad (top of main content) */}
+        <div className="google-ad">
+          <ins className="adsbygoogle"
+            style={{ display: "block" }}
+            data-ad-client="ca-pub-40620600997"
+            data-ad-slot="1234567890"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        </div>
 
         {/* About Section */}
         <section id="about" className="w-full max-w-3xl bg-white rounded-2xl shadow-xl p-10 mb-12 mt-10 border border-indigo-50">
