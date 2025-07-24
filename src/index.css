@@ -2,153 +2,315 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Modern, authentic look enhancements */
+/* Base Styles - Modern and inviting */
 body {
-  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
-  background: linear-gradient(120deg, #f0f4ff 0%, #e0e7ff 50%, #f8fafc 100%);
+  font-family: 'Inter', 'Montserrat', 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg, #e0f2fe 0%, #c7d2fe 50%, #f0f9ff 100%);
   min-height: 100vh;
-  color: #232946;
+  color: #2a304e;
+  line-height: 1.6;
+  scroll-behavior: smooth;
 }
 
-header, nav {
-  background: rgba(49, 46, 129, 0.92);
-  box-shadow: 0 4px 24px 0 rgba(49,46,129,0.08);
+/* Header & Navigation - Sophisticated and clear */
+header,
+nav {
+  background: rgba(30, 58, 138, 0.95);
+  /* Darker blue with slight transparency */
+  box-shadow: 0 6px 30px 0 rgba(30, 58, 138, 0.15);
+  /* More pronounced shadow */
 }
 
-section, .bg-glass {
-  background: rgba(255,255,255,0.85);
-  backdrop-filter: blur(12px);
-  border-radius: 1.5rem;
-  box-shadow: 0 6px 32px 0 rgba(49,46,129,0.07);
+/* Section & Glassmorphism Effect - Light and airy */
+section,
+.bg-glass {
+  background: rgba(255, 255, 255, 0.9);
+  /* Slightly more opaque */
+  backdrop-filter: blur(18px);
+  /* Stronger blur */
+  border-radius: 2rem;
+  /* More rounded */
+  box-shadow: 0 10px 45px 0 rgba(30, 58, 138, 0.1);
+  /* Deeper shadow */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  /* Subtle border */
 }
 
+/* Range Slider - Enhanced visual feedback */
 input[type="range"].accent-indigo-600::-webkit-slider-thumb {
-  background: #6366f1;
-  border: 2px solid #fff;
-  width: 18px;
-  height: 18px;
+  background: #4f46e5;
+  /* Darker indigo */
+  border: 3px solid #fff;
+  /* Thicker white border */
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  box-shadow: 0 2px 6px #6366f155;
+  box-shadow: 0 3px 8px #4f46e588;
+  /* Stronger shadow */
+  cursor: grab;
 }
+
 input[type="range"].accent-indigo-600::-moz-range-thumb {
-  background: #6366f1;
-  border: 2px solid #fff;
-  width: 18px;
-  height: 18px;
+  background: #4f46e5;
+  border: 3px solid #fff;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  box-shadow: 0 2px 6px #6366f155;
+  box-shadow: 0 3px 8px #4f46e588;
+  cursor: grab;
 }
+
 input[type="range"].accent-indigo-600::-ms-thumb {
-  background: #6366f1;
-  border: 2px solid #fff;
-  width: 18px;
-  height: 18px;
+  background: #4f46e5;
+  border: 3px solid #fff;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  box-shadow: 0 2px 6px #6366f155;
+  box-shadow: 0 3px 8px #4f46e588;
+  cursor: grab;
 }
 
 input[type="range"].accent-indigo-600 {
-  accent-color: #6366f1;
-  height: 4px;
-  background: linear-gradient(90deg, #6366f1 0%, #818cf8 100%);
-  border-radius: 2px;
+  accent-color: #4f46e5;
+  height: 6px;
+  /* Thicker track */
+  background: linear-gradient(90deg, #6366f1 0%, #a5b4fc 100%);
+  /* Softer gradient */
+  border-radius: 3px;
 }
 
+/* Scrollbar - Clean and unobtrusive */
 ::-webkit-scrollbar {
-  width: 8px;
-  background: #e0e7ff;
+  width: 10px;
+  /* Slightly wider */
+  background: #eef2ff;
+  /* Lighter background */
 }
+
 ::-webkit-scrollbar-thumb {
-  background: #c7d2fe;
-  border-radius: 4px;
+  background: #a78bfa;
+  /* Purple tint */
+  border-radius: 5px;
+  /* More rounded */
+  border: 2px solid #eef2ff;
+  /* Matches background */
 }
 
-select, button, input, textarea {
-  transition: box-shadow 0.2s, border-color 0.2s, background 0.2s;
+/* Transitions - Smooth and modern */
+select,
+button,
+input,
+textarea {
+  transition: all 0.3s ease-in-out;
+  /* Smoother transition */
 }
 
-button:focus, select:focus, input:focus, textarea:focus {
+button:focus,
+select:focus,
+input:focus,
+textarea:focus {
   outline: none;
-  box-shadow: 0 0 0 2px #6366f1;
-  border-color: #6366f1;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.3);
+  /* Larger, softer focus ring */
+  border-color: #4f46e5;
+  /* Darker indigo border */
 }
 
-button, .btn {
-  font-weight: 600;
-  border-radius: 0.75rem;
-  box-shadow: 0 2px 8px 0 rgba(99,102,241,0.08);
-  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+/* Buttons - Dynamic and inviting */
+button,
+.btn {
+  font-weight: 700;
+  /* Bolder */
+  border-radius: 1rem;
+  /* More rounded */
+  box-shadow: 0 4px 16px 0 rgba(99, 102, 241, 0.15);
+  /* Deeper shadow */
+  transition: all 0.25s ease-out;
+  /* Smoother, faster hover */
 }
 
-button:hover, .btn:hover {
-  background: linear-gradient(90deg, #6366f1 0%, #818cf8 100%);
+button:hover,
+.btn:hover {
+  background: linear-gradient(90deg, #4f46e5 0%, #8b5cf6 100%);
+  /* More vibrant gradient */
   color: #fff;
-  transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 6px 24px 0 rgba(99,102,241,0.13);
+  transform: translateY(-3px) scale(1.05);
+  /* More pronounced lift and slight scale */
+  box-shadow: 0 10px 30px 0 rgba(79, 70, 229, 0.25);
+  /* Larger, stronger shadow */
 }
 
+/* Glass effect refinement */
 .bg-glass {
-  background: rgba(255,255,255,0.7);
-  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.75);
+  /* Slightly more opaque */
+  backdrop-filter: blur(15px);
+  /* Stronger blur */
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  /* More visible border for depth */
 }
 
+/* Animations */
 .animate-fade-in {
-  animation: fadeIn 1s both;
+  animation: fadeIn 0.8s ease-out both;
 }
-.animate-fade-in.delay-100 { animation-delay: .1s; }
-.animate-fade-in.delay-200 { animation-delay: .2s; }
-.animate-fade-in.delay-300 { animation-delay: .3s; }
+.animate-fade-in.delay-100 {
+  animation-delay: 0.1s;
+}
+.animate-fade-in.delay-200 {
+  animation-delay: 0.2s;
+}
+.animate-fade-in.delay-300 {
+  animation-delay: 0.3s;
+}
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px);}
-  to { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
+/* Card Styles - Premium feel */
 .card {
-  background: rgba(255,255,255,0.95);
-  border-radius: 1.25rem;
-  box-shadow: 0 4px 24px 0 rgba(49,46,129,0.09);
-  padding: 2rem;
-  transition: box-shadow 0.2s, transform 0.1s;
+  background: rgba(255, 255, 255, 0.98);
+  /* Almost opaque white */
+  border-radius: 1.5rem;
+  /* Even more rounded */
+  box-shadow: 0 8px 36px 0 rgba(30, 58, 138, 0.12);
+  /* Deeper, softer shadow */
+  padding: 2.5rem;
+  /* More padding */
+  transition: all 0.25s ease-out;
 }
 .card:hover {
-  box-shadow: 0 8px 32px 0 rgba(99,102,241,0.13);
-  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 48px 0 rgba(79, 70, 229, 0.18);
+  /* Vibrant hover shadow */
+  transform: translateY(-4px) scale(1.03);
+  /* More prominent lift */
 }
 
-input, select, textarea {
-  border-radius: 0.5rem;
-  border: 1px solid #e0e7ff;
-  padding: 0.5rem 1rem;
-  background: #f8fafc;
+/* Form Elements - Clean and accessible */
+input,
+select,
+textarea {
+  border-radius: 0.75rem;
+  /* More rounded */
+  border: 1px solid #cdd5e8;
+  /* Softer border color */
+  padding: 0.75rem 1.25rem;
+  /* More padding */
+  background: #fdfefe;
+  /* Very light background */
 }
 
-input:focus, select:focus, textarea:focus {
-  border-color: #6366f1;
-  background: #fff;
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #4f46e5;
+  /* Stronger focus border */
+  background: #ffffff;
+  /* Pure white on focus */
 }
 
 label {
-  font-weight: 500;
-  color: #3730a3;
+  font-weight: 600;
+  /* Bolder label text */
+  color: #312e81;
+  /* Darker indigo */
 }
 
+/* Footer - Subtle and elegant */
 footer {
   background: transparent;
-  color: #6366f1;
-  font-weight: 500;
-  letter-spacing: 0.02em;
+  color: #6d6d8a;
+  /* Soft grey */
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  padding-top: 2rem;
+  /* More space */
 }
 
 /* Google AdSense ad container styling for better integration */
-.adsbygoogle, .google-ad {
+.adsbygoogle,
+.google-ad {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 2rem auto;
-  min-height: 90px;
+  margin: 3rem auto;
+  min-height: 120px;
+  /* Taller ad space */
   width: 100%;
-  max-width: 728px;
-  background: rgba(255,255,255,0.7);
-  border-radius: 1rem;
-  box-shadow: 0 2px 12px 0 rgba(99,102,241,0.07);
+  max-width: 900px;
+  /* Wider ad space */
+  background: rgba(255, 255, 255, 0.85);
+  /* More opaque background */
+  border-radius: 1.5rem;
+  /* More rounded */
+  box-shadow: 0 4px 20px 0 rgba(79, 70, 229, 0.1);
+  /* Softer shadow */
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  /* Subtle light border */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 3.5rem;
+    /* Adjust font size for tablets */
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+    /* Adjust font size for tablets */
+  }
+
+  .card {
+    padding: 1.5rem;
+    /* Less padding on smaller screens */
+  }
+
+  .google-ad {
+    margin: 2rem auto;
+    min-height: 100px;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-title {
+    font-size: 2.75rem;
+    /* Even smaller for mobile */
+    line-height: 1.2;
+  }
+
+  .hero-subtitle {
+    font-size: 1.1rem;
+    padding: 0 1rem;
+  }
+
+  header nav {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  header nav span {
+    margin-bottom: 0.5rem;
+  }
+
+  section.hero-section {
+    padding: 3rem 1rem;
+  }
+
+  .card {
+    border-radius: 1rem;
+  }
+
+  .adsbygoogle,
+  .google-ad {
+    min-height: 80px;
+    border-radius: 1rem;
+  }
 }
