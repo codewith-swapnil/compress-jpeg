@@ -4,7 +4,8 @@
   "private": true,
   "author": {
     "name": "Swapnil Bhalerao",
-    "email": "bhaleraoswapnil50@gmail.com"},
+    "email": "bhaleraoswapnil50@gmail.com"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -17,7 +18,8 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-helmet": "^6.1.0",
-    "react-i18next": "^15.6.1"
+    "react-i18next": "^15.6.1",
+    "react-router-dom": "^6.0.0" 
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.0.0",
