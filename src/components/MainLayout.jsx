@@ -1,16 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import LanguageSelector from './LanguageSelector';
 
 export default function MainLayout({ children }) {
   const { t } = useTranslation();
-  
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="relative"> {/* Added relative positioning */}
+      <header className="relative">
         <nav className="w-full bg-gradient-to-r from-blue-800 via-indigo-700 to-purple-600 py-4 px-6 text-white text-center shadow-lg flex justify-between items-center sticky top-0 z-40 backdrop-blur-md bg-opacity-90">
-          <Link to="/" className="font-extrabold tracking-wide text-2xl md:text-3xl flex items-center gap-2">
+          <Link to="/" className="font-extrabold tracking-wide text-2xl md:text-3xl flex items-center gap-2" onClick={closeMobileMenu}>
             <svg
               className="w-8 h-8 md:w-9 md:h-9 text-purple-200 inline-block drop-shadow-md"
               fill="none"
@@ -23,33 +32,97 @@ export default function MainLayout({ children }) {
             </svg>
             {t("title", { defaultValue: "SwiftCompress" })}
           </Link>
-          
-          <div className="flex items-center gap-4">
-            <div className="hidden md:flex items-center gap-4">
-              <Link 
-                to="/privacy-policy" 
-                className="text-white hover:bg-white/20 font-semibold px-3 py-1 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white text-sm"
-              >
-                {t("privacy_policy", "Privacy")}
-              </Link>
-              <Link 
-                to="/terms" 
-                className="text-white hover:bg-white/20 font-semibold px-3 py-1 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white text-sm"
-              >
-                {t("terms", "Terms")}
-              </Link>
-              <Link 
-                to="/contact" 
-                className="text-white hover:bg-white/20 font-semibold px-3 py-1 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white text-sm"
-              >
-                {t("contact", "Contact")}
-              </Link>
-            </div>
+
+          {/* Desktop Navigation Links */}
+          <div className="hidden md:flex items-center gap-4">
+            <Link
+              to="/privacy-policy"
+              className="text-white hover:bg-white/20 font-semibold px-3 py-1 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white text-sm"
+            >
+              {t("privacy_policy", "Privacy")}
+            </Link>
+            <Link
+              to="/terms"
+              className="text-white hover:bg-white/20 font-semibold px-3 py-1 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white text-sm"
+            >
+              {t("terms", "Terms")}
+            </Link>
+            <Link
+              to="/contact"
+              className="text-white hover:bg-white/20 font-semibold px-3 py-1 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white text-sm"
+            >
+              {t("contact", "Contact")}
+            </Link>
             <div className="relative">
               <LanguageSelector />
             </div>
           </div>
+
+          {/* Mobile Menu Button (Hamburger Icon) */}
+          <div className="md:hidden flex items-center">
+            <button
+              onClick={toggleMobileMenu}
+              className="text-white focus:outline-none focus:ring-2 focus:ring-white p-2 rounded-md"
+              aria-label="Toggle navigation menu"
+            >
+              <svg
+                className="w-7 h-7"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                {isMobileMenuOpen ? (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  ></path>
+                ) : (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 6h16M4 12h16m-7 6h7"
+                  ></path>
+                )}
+              </svg>
+            </button>
+          </div>
         </nav>
+
+        {/* Mobile Menu Overlay */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden fixed inset-0 bg-black bg-opacity-70 z-30 flex justify-end" onClick={closeMobileMenu}>
+            <div className="w-3/4 bg-white text-slate-800 shadow-lg py-6 px-4 flex flex-col items-start gap-4 animate-slide-in-right" onClick={(e) => e.stopPropagation()}>
+              <Link
+                to="/privacy-policy"
+                className="w-full text-left py-2 px-4 rounded-lg hover:bg-indigo-100 transition-colors duration-200 text-lg font-medium"
+                onClick={closeMobileMenu}
+              >
+                {t("privacy_policy", "Privacy")}
+              </Link>
+              <Link
+                to="/terms"
+                className="w-full text-left py-2 px-4 rounded-lg hover:bg-indigo-100 transition-colors duration-200 text-lg font-medium"
+                onClick={closeMobileMenu}
+              >
+                {t("terms", "Terms")}
+              </Link>
+              <Link
+                to="/contact"
+                className="w-full text-left py-2 px-4 rounded-lg hover:bg-indigo-100 transition-colors duration-200 text-lg font-medium"
+                onClick={closeMobileMenu}
+              >
+                {t("contact", "Contact")}
+              </Link>
+              <div className="w-full mt-4">
+                <LanguageSelector />
+              </div>
+            </div>
+          </div>
+        )}
       </header>
 
       <main className="flex-grow">
