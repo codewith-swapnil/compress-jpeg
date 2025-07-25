@@ -8,60 +8,84 @@ export default function App() {
   const { t, i18n } = useTranslation();
   const [files, setFiles] = useState([]);
   const [compressedFiles, setCompressedFiles] = useState([]);
-  const [quality, setQuality] = useState(0.7); // Default quality 70%
+  const [quality, setQuality] = useState(0.7);
   const [manualMode, setManualMode] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false); // New state for loading indicator
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [showAd, setShowAd] = useState(false);
 
-  // Supported file types for the imageCompression library
   const supportedImageTypes = [
     "image/jpeg",
     "image/jpg",
     "image/png",
     "image/webp",
-    "image/gif", // Note: GIF compression might just be conversion to JPG/PNG, or minification
+    "image/gif",
   ];
 
-  // Memoize compressImages to avoid unnecessary re-renders
+  useEffect(() => {
+    if ((files.length > 0 || compressedFiles.length > 0) && !isProcessing) {
+      const timer = setTimeout(() => {
+        setShowAd(true);
+        try {
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
+        } catch (e) {
+          console.error("AdSense push error:", e);
+        }
+      }, 2000);
+      return () => clearTimeout(timer);
+    } else {
+      setShowAd(false);
+    }
+  }, [files, compressedFiles, isProcessing]);
+
   const compressImages = useCallback(
     async (inputFiles, currentQuality) => {
-      setIsProcessing(true); // Start processing
+      setIsProcessing(true);
       const compressed = await Promise.all(
         inputFiles.map(async (file) => {
           if (supportedImageTypes.includes(file.type)) {
             const options = {
-              maxSizeMB: 1, // Max size for output, adjust as needed
-              maxWidthOrHeight: 1920, // Max width/height for output
+              maxSizeMB: 1,
+              maxWidthOrHeight: 1920,
               useWebWorker: true,
               initialQuality: currentQuality,
-              // fileType: file.type === "image/gif" ? "image/png" : undefined, // Convert GIF to PNG/JPG for compression if direct GIF compression isn't effective
             };
             try {
               const compressedBlob = await imageCompression(file, options);
               return {
                 original: file,
                 compressed: compressedBlob,
-                id: file.name + file.lastModified, // Unique ID for key prop
+                id: file.name + file.lastModified,
               };
             } catch (error) {
               console.error("Error compressing file:", file.name, error);
-              return { original: file, compressed: null, error: true, id: file.name + file.lastModified };
+              return { 
+                original: file, 
+                compressed: null, 
+                error: true, 
+                id: file.name + file.lastModified 
+              };
             }
           }
-          return { original: file, compressed: null, unsupported: true, id: file.name + file.lastModified }; // Mark as unsupported
+          return { 
+            original: file, 
+            compressed: null, 
+            unsupported: true, 
+            id: file.name + file.lastModified 
+          };
         })
       );
       setCompressedFiles(compressed);
-      setIsProcessing(false); // End processing
+      setIsProcessing(false);
     },
     [supportedImageTypes]
-  ); // Dependencies for useCallback
+  );
 
   const handleDrop = async (e) => {
     e.preventDefault();
-    e.stopPropagation(); // Stop propagation to prevent browser's default handling
-    const droppedFiles = Array.from(e.dataTransfer.files).filter(file =>
-      supportedImageTypes.includes(file.type)
-    ).slice(0, 20); // Filter for supported types
+    e.stopPropagation();
+    const droppedFiles = Array.from(e.dataTransfer.files)
+      .filter(file => supportedImageTypes.includes(file.type))
+      .slice(0, 20);
     setFiles(droppedFiles);
     if (droppedFiles.length > 0) {
       await compressImages(droppedFiles, quality);
@@ -71,9 +95,9 @@ export default function App() {
   };
 
   const handleFileChange = async (e) => {
-    const selectedFiles = Array.from(e.target.files).filter(file =>
-      supportedImageTypes.includes(file.type)
-    ).slice(0, 20); // Filter for supported types
+    const selectedFiles = Array.from(e.target.files)
+      .filter(file => supportedImageTypes.includes(file.type))
+      .slice(0, 20);
     setFiles(selectedFiles);
     if (selectedFiles.length > 0) {
       await compressImages(selectedFiles, quality);
@@ -86,7 +110,6 @@ export default function App() {
     const newQuality = parseFloat(e.target.value) / 100;
     setQuality(newQuality);
     if (files.length > 0) {
-      // Recompress all files with the new global quality setting
       await compressImages(files, newQuality);
     }
   };
@@ -97,13 +120,16 @@ export default function App() {
       maxWidthOrHeight: 1920,
       useWebWorker: true,
       initialQuality: newIndividualQuality,
-      // fileType: originalFile.type === "image/gif" ? "image/png" : undefined,
     };
     try {
       const compressedBlob = await imageCompression(originalFile, options);
       setCompressedFiles((prev) =>
         prev.map((item, i) =>
-          i === idx ? { ...item, compressed: compressedBlob, individualQuality: newIndividualQuality } : item
+          i === idx ? { 
+            ...item, 
+            compressed: compressedBlob, 
+            individualQuality: newIndividualQuality 
+          } : item
         )
       );
     } catch (error) {
@@ -116,9 +142,9 @@ export default function App() {
     const a = document.createElement("a");
     a.href = url;
     a.download = name;
-    document.body.appendChild(a); // Append to body to ensure it works in Firefox
+    document.body.appendChild(a);
     a.click();
-    document.body.removeChild(a); // Clean up
+    document.body.removeChild(a);
     URL.revokeObjectURL(url);
   };
 
@@ -140,25 +166,17 @@ export default function App() {
       handleDownload(content, "swiftcompress-images.zip");
     } catch (error) {
       console.error("Error generating zip:", error);
-      alert("Failed to create zip file. Please try again.");
+      alert(t("zip_error", { defaultValue: "Failed to create zip file. Please try again." }));
     } finally {
       setIsProcessing(false);
     }
   };
 
-  // Google Ads: trigger (re)render after mount for SPA
-  useEffect(() => {
-    if (window.adsbygoogle) {
-      try {
-        // Push an empty object to load new ads if they aren't loaded
-        (window.adsbygoogle.loaded === undefined || window.adsbygoogle.loaded === false) && window.adsbygoogle.push({});
-      } catch (e) {
-        console.error("AdSense push error:", e);
-      }
-    }
-  }, [files, compressedFiles]); // Re-run when files change to potentially load new ads
+  const getCompressionSaving = (originalSize, compressedSize) => {
+    if (!originalSize || !compressedSize) return 0;
+    return Math.max(0, Math.round(100 - (compressedSize / originalSize) * 100));
+  };
 
-  // SEO alternate links for 10 languages
   const seoLangs = [
     { code: "en", label: "English" },
     { code: "es", label: "Español" },
@@ -172,12 +190,6 @@ export default function App() {
     { code: "ja", label: "日本語" },
   ];
 
-  const getCompressionSaving = (originalSize, compressedSize) => {
-    if (!originalSize || !compressedSize) return 0;
-    return Math.max(0, Math.round(100 - (compressedSize / originalSize) * 100));
-  };
-
-
   return (
     <>
       <Helmet>
@@ -185,8 +197,7 @@ export default function App() {
         <meta
           name="description"
           content={t("meta_description", {
-            defaultValue:
-              "Compress JPG, PNG, WebP, and GIF images online for free with SwiftCompress. Drag & drop up to 20 images, adjust quality, preview results, and download compressed images or a ZIP archive. 100% privacy, no uploads."
+            defaultValue: "Compress JPG, PNG, WebP, and GIF images online for free with SwiftCompress. Drag & drop up to 20 images, adjust quality, preview results, and download compressed images or a ZIP archive. 100% privacy, no uploads."
           })}
         />
         <meta
@@ -194,7 +205,6 @@ export default function App() {
           content="image compressor, jpg compressor, png compressor, webp compressor, gif compressor, online image compressor, compress jpg, compress png, compress webp, compress gif, reduce image size, photo compressor, free image compressor, no upload"
         />
         <link rel="canonical" href={`https://swiftcompress.vercel.app/${i18n.language !== "en" ? i18n.language + "/" : ""}`} />
-        {/* SEO alternate hreflang for 10 languages */}
         {seoLangs.map((l) => (
           <link
             key={l.code}
@@ -203,18 +213,15 @@ export default function App() {
             href={`https://swiftcompress.vercel.app/${l.code === "en" ? "" : l.code + "/"}`}
           />
         ))}
-        {/* OpenGraph */}
         <meta property="og:title" content={t("title", { defaultValue: "SwiftCompress - Compress Images Online" }) + " - Free JPG, PNG, WebP, GIF Compressor"} />
         <meta property="og:description" content={t("meta_description", { defaultValue: "Compress JPG, PNG, WebP, and GIF images online for free. Drag & drop up to 20 images, adjust quality, preview results, and download compressed images or a ZIP archive. 100% privacy, no uploads." })} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={`https://swiftcompress.vercel.app/${i18n.language !== "en" ? i18n.language + "/" : ""}`} />
         <meta property="og:image" content="https://swiftcompress.vercel.app/og-image.png" />
-        {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={t("title", { defaultValue: "SwiftCompress - Compress Images Online" }) + " - Free JPG, PNG, WebP, GIF Compressor"} />
         <meta name="twitter:description" content={t("meta_description", { defaultValue: "Compress JPG, PNG, WebP, and GIF images online for free. Drag & drop up to 20 images, adjust quality, preview results, and download compressed images or a ZIP archive. 100% privacy, no uploads." })} />
         <meta name="twitter:image" content="https://swiftcompress.vercel.app/og-image.png" />
-        {/* FAQ Structured Data - This will be part of the content below, not necessarily in Helmet unless directly generated. */}
       </Helmet>
 
       <header>
@@ -242,7 +249,6 @@ export default function App() {
       </header>
 
       <main className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-100 to-purple-50 flex flex-col items-center p-0 font-sans">
-        {/* Hero Section */}
         <section className="w-full bg-gradient-to-r from-blue-800 via-indigo-700 to-purple-600 py-20 px-4 text-white text-center shadow-2xl rounded-b-[4rem] relative overflow-hidden hero-section">
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-white/15 rounded-full blur-3xl opacity-60 animate-pulse-slow"></div>
@@ -253,8 +259,7 @@ export default function App() {
           </h1>
           <p className="relative max-w-3xl mx-auto text-xl md:text-2xl font-medium mb-10 animate-fade-in delay-100 hero-subtitle">
             {t("hero_subtitle", {
-              defaultValue:
-                "Optimize JPG, PNG, WebP, and GIF images instantly. Drag & drop up to 20 files, adjust quality, and download all at once. Fast, private, and 100% free with in-browser processing."
+              defaultValue: "Optimize JPG, PNG, WebP, and GIF images instantly. Drag & drop up to 20 files, adjust quality, and download all at once. Fast, private, and 100% free with in-browser processing."
             })}
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-6 mb-6 animate-fade-in delay-200">
@@ -276,7 +281,6 @@ export default function App() {
           </p>
         </section>
 
-        {/* Compression Section */}
         <section id="compressor" className="w-full max-w-4xl mt-16 px-4">
           <div
             className="border-4 border-dashed border-indigo-400 rounded-3xl p-12 mb-12 bg-white shadow-2xl transition-all duration-300 hover:border-purple-600 flex flex-col items-center justify-center relative group min-h-[250px] text-center"
@@ -311,7 +315,6 @@ export default function App() {
             <div className="absolute inset-0 pointer-events-none group-hover:bg-indigo-50/40 rounded-3xl transition-all duration-300"></div>
           </div>
 
-          {/* Processing Indicator */}
           {isProcessing && (
             <div className="text-center text-indigo-700 font-semibold text-xl my-8 flex items-center justify-center gap-3 animate-pulse">
               <svg className="animate-spin h-6 w-6 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -322,8 +325,6 @@ export default function App() {
             </div>
           )}
 
-
-          {/* Controls: Manual Mode Toggle & Quality Slider */}
           {files.length > 0 && (
             <div className="bg-white p-8 rounded-2xl shadow-xl mb-12 border border-indigo-100">
               <div className="flex items-center mb-6 gap-3">
@@ -359,12 +360,11 @@ export default function App() {
             </div>
           )}
 
-          {/* Compressed Images Preview */}
           {compressedFiles.length > 0 && (
             <article className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
               {compressedFiles.map(({ original, compressed, unsupported, error, id }, idx) => (
                 <div
-                  key={id} // Use the unique ID here
+                  key={id}
                   className="bg-gradient-to-br from-blue-50 to-white rounded-3xl shadow-xl p-6 flex flex-col items-center group transition-all duration-300 hover:shadow-2xl border border-indigo-100 hover:border-purple-300 relative card"
                   itemScope
                   itemType="https://schema.org/ImageObject"
@@ -449,8 +449,7 @@ export default function App() {
             </article>
           )}
 
-          {/* Download All Button */}
-          {compressedFiles.length > 1 && compressedFiles.some(f => f.compressed) && ( // Only show if more than one image and at least one is compressed
+          {compressedFiles.length > 1 && compressedFiles.some(f => f.compressed) && (
             <div className="flex justify-center mb-16 animate-fade-in delay-300">
               <button
                 className="px-12 py-4 bg-gradient-to-r from-purple-600 to-indigo-700 text-white font-bold rounded-full shadow-lg hover:from-purple-700 hover:to-indigo-800 transition-all duration-300 text-xl focus:outline-none focus:ring-4 focus:ring-purple-400 btn"
@@ -461,69 +460,65 @@ export default function App() {
               </button>
             </div>
           )}
+
+          {showAd && compressedFiles.length > 0 && (
+            <div className="w-full my-12 p-6 bg-white rounded-xl shadow-md">
+              <h3 className="text-xl font-semibold text-gray-800 mb-4">
+                {t("image_optimization_tips", { defaultValue: "Image Optimization Tips" })}
+              </h3>
+              <p className="text-gray-600 mb-4">
+                {t("optimization_tip_content", {
+                  defaultValue: "For best results, try different quality levels. WebP format often provides the best compression. Remember that images for web typically don't need resolutions above 2000px."
+                })}
+              </p>
+              <div className="google-ad">
+                <ins className="adsbygoogle"
+                  style={{ display: "block" }}
+                  data-ad-client="ca-pub-40620600997"
+                  data-ad-slot="6449429019"
+                  data-ad-format="auto"
+                  data-full-width-responsive="true"></ins>
+              </div>
+            </div>
+          )}
         </section>
 
-        {/* Google AdSense Ad (Middle of content) */}
-        <div className="google-ad animate-fade-in delay-200">
-          <ins className="adsbygoogle"
-            style={{ display: "block" }}
-            data-ad-client="ca-pub-40620600997"
-            data-ad-slot="6449429019"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
-        </div>
-
-        {/* About Section */}
         <section id="about" className="w-full max-w-4xl bg-white rounded-3xl shadow-2xl p-10 md:p-12 mb-16 mt-12 border border-blue-50 card">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 text-indigo-800 text-center" itemProp="headline">
             {t("about_swiftcompress", { defaultValue: "About SwiftCompress" })}
           </h2>
           <p className="text-gray-700 mb-4 text-lg" itemProp="description">
             {t("about_p1", {
-              defaultValue:
-                "SwiftCompress is your go-to free online tool for quickly and securely compressing images. Whether you need to optimize photos for your website, send large image files via email, or save storage space, our tool provides efficient compression for multiple formats."
+              defaultValue: "SwiftCompress is your go-to free online tool for quickly and securely compressing images. Whether you need to optimize photos for your website, send large image files via email, or save storage space, our tool provides efficient compression for multiple formats."
             })}
           </p>
           <p className="text-gray-700 mb-4 text-lg">
             <span className="font-semibold text-indigo-700">{t("how_compression_works_q", { defaultValue: "How does image compression work?" })}</span>
             <br />
             {t("how_compression_works_a", {
-              defaultValue:
-                "Image compression, especially for formats like JPG and WebP, involves a 'lossy' algorithm. This means it intelligently reduces file size by discarding some visual data that is less perceptible to the human eye. For PNG and GIF, it uses 'lossless' techniques to reduce size without any quality loss. You maintain full control over the compression level using our intuitive quality slider or by setting individual image qualities."
+              defaultValue: "Image compression, especially for formats like JPG and WebP, involves a 'lossy' algorithm. This means it intelligently reduces file size by discarding some visual data that is less perceptible to the human eye. For PNG and GIF, it uses 'lossless' techniques to reduce size without any quality loss. You maintain full control over the compression level using our intuitive quality slider or by setting individual image qualities."
             })}
           </p>
           <p className="text-gray-700 mb-4 text-lg">
             <span className="font-semibold text-indigo-700">{t("supported_formats_q", { defaultValue: "What image formats are supported?" })}</span>
             <br />
             {t("supported_formats_a_long", {
-              defaultValue:
-                "SwiftCompress supports the most common image formats: JPEG/JPG for photographs, PNG for images with transparency, WebP for modern web optimization, and GIF for animated images (though GIFs are primarily converted to static images for compression). Our goal is to provide versatile compression for all your needs."
+              defaultValue: "SwiftCompress supports the most common image formats: JPEG/JPG for photographs, PNG for images with transparency, WebP for modern web optimization, and GIF for animated images (though GIFs are primarily converted to static images for compression). Our goal is to provide versatile compression for all your needs."
             })}
           </p>
           <p className="text-gray-700 mb-4 text-lg">
             <span className="font-semibold text-indigo-700">{t("is_it_safe_q", { defaultValue: "Is SwiftCompress safe and private?" })}</span>
             <br />
             {t("is_it_safe_a", {
-              defaultValue:
-                "Absolutely! Your privacy and security are paramount. All image compression and processing happen directly within your web browser. Your images are never uploaded to our servers or stored anywhere, ensuring your data remains completely private and secure."
+              defaultValue: "Absolutely! Your privacy and security are paramount. All image compression and processing happen directly within your web browser. Your images are never uploaded to our servers or stored anywhere, ensuring your data remains completely private and secure."
             })}
           </p>
           <p className="text-gray-600 text-sm mt-6 text-center">
             {t("tech_stack", {
-              defaultValue:
-                "Built with React and Tailwind CSS for a fast and modern experience. Leveraging client-side processing for ultimate privacy."
+              defaultValue: "Built with React and Tailwind CSS for a fast and modern experience. Leveraging client-side processing for ultimate privacy."
             })}
           </p>
-          {/* Google Ads Placeholder */}
-          <div className="my-10 flex justify-center">
-            <ins className="adsbygoogle"
-              style={{ display: "block" }}
-              data-ad-client="ca-pub-40620600997" // Replace with your actual ad client ID
-              data-ad-slot="2103167504" // Replace with your actual ad slot ID
-              data-ad-format="auto"
-              data-full-width-responsive="true"></ins>
-          </div>
-          {/* FAQ Section */}
+
           <article className="mt-10" itemScope itemType="https://schema.org/FAQPage">
             <h3 className="text-2xl md:text-3xl font-bold mb-5 text-purple-700 text-center">{t("faq", { defaultValue: "Frequently Asked Questions" })}</h3>
             <div className="space-y-6">
@@ -533,8 +528,7 @@ export default function App() {
                 </h4>
                 <p className="text-gray-700" itemProp="acceptedAnswer">
                   {t("faq_a1", {
-                    defaultValue:
-                      "A: SwiftCompress currently supports JPG, JPEG, PNG, WebP, and GIF images. We're continuously working to expand our compatibility!"
+                    defaultValue: "A: SwiftCompress currently supports JPG, JPEG, PNG, WebP, and GIF images. We're continuously working to expand our compatibility!"
                   })}
                 </p>
               </div>
@@ -544,8 +538,7 @@ export default function App() {
                 </h4>
                 <p className="text-gray-700" itemProp="acceptedAnswer">
                   {t("faq_a2", {
-                    defaultValue:
-                      "A: For lossy formats like JPG and WebP, some quality reduction is inherent, but our tool uses smart algorithms to minimize visible degradation. You can fine-tune the quality using the slider or manual mode to achieve the perfect balance between file size and visual fidelity."
+                    defaultValue: "A: For lossy formats like JPG and WebP, some quality reduction is inherent, but our tool uses smart algorithms to minimize visible degradation. You can fine-tune the quality using the slider or manual mode to achieve the perfect balance between file size and visual fidelity."
                   })}
                 </p>
               </div>
@@ -555,8 +548,7 @@ export default function App() {
                 </h4>
                 <p className="text-gray-700" itemProp="acceptedAnswer">
                   {t("faq_a3", {
-                    defaultValue:
-                      "A: You can compress up to 20 images in a single batch. Each image is compressed efficiently, with optimal settings applied to balance size and quality. There isn't a strict file size limit beyond your browser's capabilities, as all processing is done locally."
+                    defaultValue: "A: You can compress up to 20 images in a single batch. Each image is compressed efficiently, with optimal settings applied to balance size and quality. There isn't a strict file size limit beyond your browser's capabilities, as all processing is done locally."
                   })}
                 </p>
               </div>
@@ -566,14 +558,34 @@ export default function App() {
                 </h4>
                 <p className="text-gray-700" itemProp="acceptedAnswer">
                   {t("faq_a4", {
-                    defaultValue:
-                      "A: Absolutely! SwiftCompress is designed with a fully responsive interface, ensuring a smooth and efficient experience whether you're using a desktop computer, laptop, tablet, or smartphone."
+                    defaultValue: "A: Absolutely! SwiftCompress is designed with a fully responsive interface, ensuring a smooth and efficient experience whether you're using a desktop computer, laptop, tablet, or smartphone."
                   })}
                 </p>
               </div>
             </div>
           </article>
         </section>
+
+        {showAd && (
+          <div className="w-full max-w-4xl my-8 p-6 bg-white rounded-xl shadow-md">
+            <h3 className="text-xl font-semibold text-gray-800 mb-4">
+              {t("more_compression_tools", { defaultValue: "More Compression Tools" })}
+            </h3>
+            <p className="text-gray-600 mb-4">
+              {t("tools_tip_content", {
+                defaultValue: "Check out our other tools for PDF compression, video optimization, and more coming soon!"
+              })}
+            </p>
+            <div className="google-ad">
+              <ins className="adsbygoogle"
+                style={{ display: "block" }}
+                data-ad-client="ca-pub-40620600997"
+                data-ad-slot="2103167504"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+            </div>
+          </div>
+        )}
 
         <footer className="w-full text-center text-sm text-gray-500 pb-8 mt-12 border-t border-gray-200 pt-6">
           &copy; {new Date().getFullYear()} SwiftCompress. All rights reserved. |{" "}
