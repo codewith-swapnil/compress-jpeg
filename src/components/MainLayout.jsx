@@ -18,6 +18,7 @@ export default function MainLayout({ children }) {
   return (
     <div className="min-h-screen flex flex-col">
       <header className="relative">
+        {/* Main Navigation Bar */}
         <nav className="w-full bg-gradient-to-r from-blue-800 via-indigo-700 to-purple-600 py-4 px-6 text-white text-center shadow-lg flex justify-between items-center sticky top-0 z-40 backdrop-blur-md bg-opacity-90">
           <Link to="/" className="font-extrabold tracking-wide text-2xl md:text-3xl flex items-center gap-2" onClick={closeMobileMenu}>
             <svg
@@ -35,6 +36,14 @@ export default function MainLayout({ children }) {
 
           {/* Desktop Navigation Links */}
           <div className="hidden md:flex items-center gap-4">
+            {/* Added Home Link for Desktop */}
+            <Link
+              to="/"
+              className="text-white hover:bg-white/20 font-semibold px-3 py-1 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white text-sm"
+              onClick={closeMobileMenu} // Ensure it closes if somehow clicked while menu is open
+            >
+              {t("home", "Home")}
+            </Link>
             <Link
               to="/privacy-policy"
               className="text-white hover:bg-white/20 font-semibold px-3 py-1 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white text-sm"
@@ -94,12 +103,13 @@ export default function MainLayout({ children }) {
 
         {/* Mobile Menu Overlay */}
         {isMobileMenuOpen && (
-          <div className="md:hidden fixed inset-0 bg-black bg-opacity-70 z-30 flex justify-end" onClick={closeMobileMenu}>
-            <div className="w-full max-w-xs bg-white text-slate-800 shadow-lg py-6 px-4 flex flex-col items-start gap-4 animate-slide-in-right relative" onClick={(e) => e.stopPropagation()}>
+          <div className="md:hidden fixed inset-0 bg-black bg-opacity-70 z-50 flex justify-end" onClick={closeMobileMenu}>
+            {/* Mobile Menu Content Panel */}
+            <div className="w-full max-w-xs bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-800 text-white shadow-lg py-6 px-4 flex flex-col items-start animate-slide-in-right relative h-full overflow-y-auto" onClick={(e) => e.stopPropagation()}>
               {/* Close Button inside mobile menu */}
               <button
                 onClick={closeMobileMenu}
-                className="absolute top-4 right-4 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 p-2 rounded-md"
+                className="absolute top-4 right-4 text-white hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-white p-2 rounded-md"
                 aria-label="Close navigation menu"
               >
                 <svg
@@ -119,31 +129,41 @@ export default function MainLayout({ children }) {
               </button>
 
               {/* Mobile Menu Links */}
-              <div className="mt-8 w-full"> {/* Added margin top to prevent overlap with close button */}
+              <div className="pt-16 w-full flex flex-col gap-2">
+                {/* Added Home Link for Mobile */}
+                <Link
+                  to="/"
+                  className="block w-full text-left py-3 px-4 rounded-lg hover:bg-white/10 transition-colors duration-200 text-lg font-medium"
+                  onClick={closeMobileMenu}
+                >
+                  {t("home", "Home")}
+                </Link>
                 <Link
                   to="/privacy-policy"
-                  className="block w-full text-left py-3 px-4 rounded-lg hover:bg-indigo-100 transition-colors duration-200 text-lg font-medium"
+                  className="block w-full text-left py-3 px-4 rounded-lg hover:bg-white/10 transition-colors duration-200 text-lg font-medium"
                   onClick={closeMobileMenu}
                 >
                   {t("privacy_policy", "Privacy")}
                 </Link>
                 <Link
                   to="/terms"
-                  className="block w-full text-left py-3 px-4 rounded-lg hover:bg-indigo-100 transition-colors duration-200 text-lg font-medium"
+                  className="block w-full text-left py-3 px-4 rounded-lg hover:bg-white/10 transition-colors duration-200 text-lg font-medium"
                   onClick={closeMobileMenu}
                 >
                   {t("terms", "Terms")}
                 </Link>
                 <Link
                   to="/contact"
-                  className="block w-full text-left py-3 px-4 rounded-lg hover:bg-indigo-100 transition-colors duration-200 text-lg font-medium"
+                  className="block w-full text-left py-3 px-4 rounded-lg hover:bg-white/10 transition-colors duration-200 text-lg font-medium"
                   onClick={closeMobileMenu}
                 >
                   {t("contact", "Contact")}
                 </Link>
               </div>
+              {/* Language Selector in Mobile Menu */}
               <div className="w-full mt-4">
-                <LanguageSelector />
+                {/* To ensure LanguageSelector matches, you might need to adjust its internal styling if it's not transparent */}
+                <LanguageSelector className="w-full" />
               </div>
             </div>
           </div>
