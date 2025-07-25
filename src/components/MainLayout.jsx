@@ -95,28 +95,53 @@ export default function MainLayout({ children }) {
         {/* Mobile Menu Overlay */}
         {isMobileMenuOpen && (
           <div className="md:hidden fixed inset-0 bg-black bg-opacity-70 z-30 flex justify-end" onClick={closeMobileMenu}>
-            <div className="w-3/4 bg-white text-slate-800 shadow-lg py-6 px-4 flex flex-col items-start gap-4 animate-slide-in-right" onClick={(e) => e.stopPropagation()}>
-              <Link
-                to="/privacy-policy"
-                className="w-full text-left py-2 px-4 rounded-lg hover:bg-indigo-100 transition-colors duration-200 text-lg font-medium"
+            <div className="w-full max-w-xs bg-white text-slate-800 shadow-lg py-6 px-4 flex flex-col items-start gap-4 animate-slide-in-right relative" onClick={(e) => e.stopPropagation()}>
+              {/* Close Button inside mobile menu */}
+              <button
                 onClick={closeMobileMenu}
+                className="absolute top-4 right-4 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 p-2 rounded-md"
+                aria-label="Close navigation menu"
               >
-                {t("privacy_policy", "Privacy")}
-              </Link>
-              <Link
-                to="/terms"
-                className="w-full text-left py-2 px-4 rounded-lg hover:bg-indigo-100 transition-colors duration-200 text-lg font-medium"
-                onClick={closeMobileMenu}
-              >
-                {t("terms", "Terms")}
-              </Link>
-              <Link
-                to="/contact"
-                className="w-full text-left py-2 px-4 rounded-lg hover:bg-indigo-100 transition-colors duration-200 text-lg font-medium"
-                onClick={closeMobileMenu}
-              >
-                {t("contact", "Contact")}
-              </Link>
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  ></path>
+                </svg>
+              </button>
+
+              {/* Mobile Menu Links */}
+              <div className="mt-8 w-full"> {/* Added margin top to prevent overlap with close button */}
+                <Link
+                  to="/privacy-policy"
+                  className="block w-full text-left py-3 px-4 rounded-lg hover:bg-indigo-100 transition-colors duration-200 text-lg font-medium"
+                  onClick={closeMobileMenu}
+                >
+                  {t("privacy_policy", "Privacy")}
+                </Link>
+                <Link
+                  to="/terms"
+                  className="block w-full text-left py-3 px-4 rounded-lg hover:bg-indigo-100 transition-colors duration-200 text-lg font-medium"
+                  onClick={closeMobileMenu}
+                >
+                  {t("terms", "Terms")}
+                </Link>
+                <Link
+                  to="/contact"
+                  className="block w-full text-left py-3 px-4 rounded-lg hover:bg-indigo-100 transition-colors duration-200 text-lg font-medium"
+                  onClick={closeMobileMenu}
+                >
+                  {t("contact", "Contact")}
+                </Link>
+              </div>
               <div className="w-full mt-4">
                 <LanguageSelector />
               </div>
