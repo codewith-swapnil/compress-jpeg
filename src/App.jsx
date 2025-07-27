@@ -290,7 +290,7 @@ export default function App() {
                 <h3 className="text-2xl md:text-3xl font-bold text-indigo-800 mb-2">
                   {t("select_files", { defaultValue: "Drag & Drop or Click to Upload" })}
                 </h3>
-                <p className="text-gray-600 max-w-md">
+                <p className="text-gray-600">
                   {t("supported_formats", { defaultValue: "JPG, JPEG, PNG, WebP, GIF (Max 20 files)" })}
                 </p>
               </div>
