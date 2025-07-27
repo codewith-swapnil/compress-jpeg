@@ -8,8 +8,8 @@ export default function Terms() {
   return (
     <div className="flex justify-center items-center py-12 px-4 sm:px-6 lg:px-8"> {/* Centering container */}
       <Helmet>
-        <title>{t("terms_title", "Terms of Service")} - SwiftCompress</title>
-        <meta name="description" content={t("terms_meta_description", "Terms and conditions for using SwiftCompress")} />
+        <title>{t("terms_title", "Terms of Service")} - AutoCompress</title>
+        <meta name="description" content={t("terms_meta_description", "Terms and conditions for using AutoCompress")} />
       </Helmet>
 
       <div className="card max-w-4xl w-full"> {/* Apply the 'card' class here, similar to PrivacyPolicy */}
@@ -21,13 +21,13 @@ export default function Terms() {
           <h2 className="text-2xl font-bold mb-4 text-indigo-700">{t("terms_intro_header", "1. Introduction")}</h2>
           <p className="mb-4">
             {t("terms_intro",
-              "By accessing or using the SwiftCompress website and services, you agree to be bound by these Terms of Service.")}
+              "By accessing or using the AutoCompress website and services, you agree to be bound by these Terms of Service.")}
           </p>
 
           <h2 className="text-2xl font-bold mb-4 text-indigo-700">{t("service_description", "2. Service Description")}</h2>
           <p className="mb-4">
             {t("service_description_detail",
-              "SwiftCompress provides an online image compression tool that processes images directly in your browser without uploading them to our servers.")}
+              "AutoCompress provides an online image compression tool that processes images directly in your browser without uploading them to our servers.")}
           </p>
 
           <h2 className="text-2xl font-bold mb-4 text-indigo-700">{t("user_responsibilities", "3. User Responsibilities")}</h2>
@@ -39,7 +39,7 @@ export default function Terms() {
           <h2 className="text-2xl font-bold mb-4 text-indigo-700">{t("limitations", "4. Limitations of Liability")}</h2>
           <p className="mb-4">
             {t("limitations_detail",
-              "SwiftCompress is not liable for any damages resulting from the use of our service. We make no guarantees about the quality or results of image compression.")}
+              "AutoCompress is not liable for any damages resulting from the use of our service. We make no guarantees about the quality or results of image compression.")}
           </p>
 
           <h2 className="text-2xl font-bold mb-4 text-indigo-700">{t("changes_terms", "5. Changes to Terms")}</h2>

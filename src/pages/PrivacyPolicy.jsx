@@ -8,7 +8,7 @@ export default function PrivacyPolicy() {
   return (
     <div className="flex justify-center items-center py-12 px-4 sm:px-6 lg:px-8"> {/* Centering container */}
       <Helmet>
-        <title>{t("privacy_policy_title", "Privacy Policy")} - SwiftCompress</title>
+        <title>{t("privacy_policy_title", "Privacy Policy")} - AutoCompress</title>
         <meta name="description" content={t("privacy_meta_description", "Learn about our privacy practices and how we handle your data")} />
       </Helmet>
 
@@ -21,7 +21,7 @@ export default function PrivacyPolicy() {
           <h2 className="text-2xl font-bold mb-4 text-indigo-700">{t("privacy_intro_header", "Introduction")}</h2>
           <p className="mb-4">
             {t("privacy_intro",
-              "SwiftCompress is committed to protecting your privacy. This Privacy Policy explains how we handle your data when you use our service.")}
+              "AutoCompress is committed to protecting your privacy. This Privacy Policy explains how we handle your data when you use our service.")}
           </p>
 
           <h2 className="text-2xl font-bold mb-4 text-indigo-700">{t("data_collection", "Data Collection")}</h2>

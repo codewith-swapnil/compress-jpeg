@@ -31,7 +31,7 @@ export default function MainLayout({ children }) {
               <path d="M12 20h9"></path>
               <path d="M12 4v16m0 0H3m9 0a9 9 0 1 0 0-18 9 9 0 0 0 0 18z"></path>
             </svg>
-            {t("title", { defaultValue: "SwiftCompress" })}
+            {t("title", { defaultValue: "AutoCompress" })}
           </Link>
 
           {/* Desktop Navigation Links */}
@@ -175,7 +175,7 @@ export default function MainLayout({ children }) {
       </main>
 
       <footer className="w-full text-center text-sm text-gray-500 pb-8 mt-12 border-t border-gray-200 pt-6">
-        &copy; {new Date().getFullYear()} SwiftCompress. {t("all_rights_reserved", "All rights reserved.")} |{" "}
+        &copy; {new Date().getFullYear()} AutoCompress. {t("all_rights_reserved", "All rights reserved.")} |{" "}
         <Link to="/privacy-policy" className="text-indigo-600 hover:underline">
           {t("privacy_policy", "Privacy Policy")}
         </Link> |{" "}

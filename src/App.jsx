@@ -163,7 +163,7 @@ export default function App() {
     });
     try {
       const content = await zip.generateAsync({ type: "blob" });
-      handleDownload(content, "swiftcompress-images.zip");
+      handleDownload(content, "autocompress-images.zip");
     } catch (error) {
       console.error("Error generating zip:", error);
       alert(t("zip_error", { defaultValue: "Failed to create zip file. Please try again." }));
@@ -193,35 +193,35 @@ export default function App() {
   return (
     <>
       <Helmet>
-        <title>{t("title", { defaultValue: "SwiftCompress - Compress Images Online" })} - Free JPG, PNG, WebP, GIF Compressor</title>
+        <title>{t("title", { defaultValue: "AutoCompress - Compress Images Online" })} - Free JPG, PNG, WebP, GIF Compressor</title>
         <meta
           name="description"
           content={t("meta_description", {
-            defaultValue: "Compress JPG, PNG, WebP, and GIF images online for free with SwiftCompress. Drag & drop up to 20 images, adjust quality, preview results, and download compressed images or a ZIP archive. 100% privacy, no uploads."
+            defaultValue: "Compress JPG, PNG, WebP, and GIF images online for free with AutoCompress. Drag & drop up to 20 images, adjust quality, preview results, and download compressed images or a ZIP archive. 100% privacy, no uploads."
           })}
         />
         <meta
           name="keywords"
           content="image compressor, jpg compressor, png compressor, webp compressor, gif compressor, online image compressor, compress jpg, compress png, compress webp, compress gif, reduce image size, photo compressor, free image compressor, no upload"
         />
-        <link rel="canonical" href={`https://swiftcompress.vercel.app/${i18n.language !== "en" ? i18n.language + "/" : ""}`} />
+        <link rel="canonical" href={`https://autocompress.vercel.app/${i18n.language !== "en" ? i18n.language + "/" : ""}`} />
         {seoLangs.map((l) => (
           <link
             key={l.code}
             rel="alternate"
             hrefLang={l.code}
-            href={`https://swiftcompress.vercel.app/${l.code === "en" ? "" : l.code + "/"}`}
+            href={`https://autocompress.vercel.app/${l.code === "en" ? "" : l.code + "/"}`}
           />
         ))}
-        <meta property="og:title" content={t("title", { defaultValue: "SwiftCompress - Compress Images Online" }) + " - Free JPG, PNG, WebP, GIF Compressor"} />
+        <meta property="og:title" content={t("title", { defaultValue: "AutoCompress - Compress Images Online" }) + " - Free JPG, PNG, WebP, GIF Compressor"} />
         <meta property="og:description" content={t("meta_description", { defaultValue: "Compress JPG, PNG, WebP, and GIF images online for free. Drag & drop up to 20 images, adjust quality, preview results, and download compressed images or a ZIP archive. 100% privacy, no uploads." })} />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={`https://swiftcompress.vercel.app/${i18n.language !== "en" ? i18n.language + "/" : ""}`} />
-        <meta property="og:image" content="https://swiftcompress.vercel.app/og-image.png" />
+        <meta property="og:url" content={`https://autocompress.vercel.app/${i18n.language !== "en" ? i18n.language + "/" : ""}`} />
+        <meta property="og:image" content="https://autocompress.vercel.app/og-image.png" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={t("title", { defaultValue: "SwiftCompress - Compress Images Online" }) + " - Free JPG, PNG, WebP, GIF Compressor"} />
+        <meta name="twitter:title" content={t("title", { defaultValue: "AutoCompress - Compress Images Online" }) + " - Free JPG, PNG, WebP, GIF Compressor"} />
         <meta name="twitter:description" content={t("meta_description", { defaultValue: "Compress JPG, PNG, WebP, and GIF images online for free. Drag & drop up to 20 images, adjust quality, preview results, and download compressed images or a ZIP archive. 100% privacy, no uploads." })} />
-        <meta name="twitter:image" content="https://swiftcompress.vercel.app/og-image.png" />
+        <meta name="twitter:image" content="https://autocompress.vercel.app/og-image.png" />
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-100 to-purple-50">
@@ -545,11 +545,11 @@ export default function App() {
 
         <section id="about" className="w-full max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl p-10 md:p-12 mb-16 mt-12 border border-blue-50 card">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 text-indigo-800 text-center" itemProp="headline">
-            {t("about_swiftcompress", { defaultValue: "About SwiftCompress" })}
+            {t("about_swiftcompress", { defaultValue: "About AutoCompress" })}
           </h2>
           <p className="text-gray-700 mb-4 text-lg" itemProp="description">
             {t("about_p1", {
-              defaultValue: "SwiftCompress is your go-to free online tool for quickly and securely compressing images. Whether you need to optimize photos for your website, send large image files via email, or save storage space, our tool provides efficient compression for multiple formats."
+              defaultValue: "AutoCompress is your go-to free online tool for quickly and securely compressing images. Whether you need to optimize photos for your website, send large image files via email, or save storage space, our tool provides efficient compression for multiple formats."
             })}
           </p>
           <p className="text-gray-700 mb-4 text-lg">
@@ -563,11 +563,11 @@ export default function App() {
             <span className="font-semibold text-indigo-700">{t("supported_formats_q", { defaultValue: "What image formats are supported?" })}</span>
             <br />
             {t("supported_formats_a_long", {
-              defaultValue: "SwiftCompress supports the most common image formats: JPEG/JPG for photographs, PNG for images with transparency, WebP for modern web optimization, and GIF for animated images (though GIFs are primarily converted to static images for compression). Our goal is to provide versatile compression for all your needs."
+              defaultValue: "AutoCompress supports the most common image formats: JPEG/JPG for photographs, PNG for images with transparency, WebP for modern web optimization, and GIF for animated images (though GIFs are primarily converted to static images for compression). Our goal is to provide versatile compression for all your needs."
             })}
           </p>
           <p className="text-gray-700 mb-4 text-lg">
-            <span className="font-semibold text-indigo-700">{t("is_it_safe_q", { defaultValue: "Is SwiftCompress safe and private?" })}</span>
+            <span className="font-semibold text-indigo-700">{t("is_it_safe_q", { defaultValue: "Is AutoCompress safe and private?" })}</span>
             <br />
             {t("is_it_safe_a", {
               defaultValue: "Absolutely! Your privacy and security are paramount. All image compression and processing happen directly within your web browser. Your images are never uploaded to our servers or stored anywhere, ensuring your data remains completely private and secure."
@@ -584,11 +584,11 @@ export default function App() {
             <div className="space-y-6">
               <div className="card p-6 shadow-md border border-blue-100" itemScope itemType="https://schema.org/Question">
                 <h4 className="font-bold text-xl text-indigo-700 mb-2" itemProp="name">
-                  {t("faq_q1", { defaultValue: "Q: What image formats can I compress with SwiftCompress?" })}
+                  {t("faq_q1", { defaultValue: "Q: What image formats can I compress with AutoCompress?" })}
                 </h4>
                 <p className="text-gray-700" itemProp="acceptedAnswer">
                   {t("faq_a1", {
-                    defaultValue: "A: SwiftCompress currently supports JPG, JPEG, PNG, WebP, and GIF images. We're continuously working to expand our compatibility!"
+                    defaultValue: "A: AutoCompress currently supports JPG, JPEG, PNG, WebP, and GIF images. We're continuously working to expand our compatibility!"
                   })}
                 </p>
               </div>
@@ -614,11 +614,11 @@ export default function App() {
               </div>
               <div className="card p-6 shadow-md border border-blue-100" itemScope itemType="https://schema.org/Question">
                 <h4 className="font-bold text-xl text-indigo-700 mb-2" itemProp="name">
-                  {t("faq_q4", { defaultValue: "Q: Can I use SwiftCompress on my smartphone or tablet?" })}
+                  {t("faq_q4", { defaultValue: "Q: Can I use AutoCompress on my smartphone or tablet?" })}
                 </h4>
                 <p className="text-gray-700" itemProp="acceptedAnswer">
                   {t("faq_a4", {
-                    defaultValue: "A: Absolutely! SwiftCompress is designed with a fully responsive interface, ensuring a smooth and efficient experience whether you're using a desktop computer, laptop, tablet, or smartphone."
+                    defaultValue: "A: Absolutely! AutoCompress is designed with a fully responsive interface, ensuring a smooth and efficient experience whether you're using a desktop computer, laptop, tablet, or smartphone."
                   })}
                 </p>
               </div>

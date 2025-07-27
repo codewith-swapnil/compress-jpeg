@@ -8,8 +8,8 @@ export default function Contact() {
   return (
     <div className="flex justify-center items-center py-12 px-4 sm:px-6 lg:px-8"> {/* Centering container */}
       <Helmet>
-        <title>{t("contact_title", "Contact Us")} - SwiftCompress</title>
-        <meta name="description" content={t("contact_meta_description", "Get in touch with the SwiftCompress team")} />
+        <title>{t("contact_title", "Contact Us")} - AutoCompress</title>
+        <meta name="description" content={t("contact_meta_description", "Get in touch with the AutoCompress team")} />
       </Helmet>
 
       <div className="card max-w-4xl w-full"> {/* Apply the 'card' class here */}
@@ -20,19 +20,19 @@ export default function Contact() {
         <div className="prose max-w-none text-slate-700 leading-relaxed"> {/* Adjusted prose for better text appearance */}
           <h2 className="text-2xl font-bold mb-4 text-indigo-700">{t("contact_info", "Contact Information")}</h2>
           <p className="mb-4">
-            <span className="font-semibold">{t("contact_email", "Email")}:</span> <a href="mailto:support@swiftcompress.com" className="text-indigo-600 hover:underline">support@swiftcompress.com</a>
+            <span className="font-semibold">{t("contact_email", "Email")}:</span> <a href="mailto:support@autocompress.com" className="text-indigo-600 hover:underline">support@autocompress.com</a>
           </p>
 
           <h2 className="text-2xl font-bold mt-6 mb-4 text-indigo-700">{t("report_issues", "Report Issues")}</h2>
           <p className="mb-4">
             {t("report_issues_detail",
-              "If you encounter any problems with our service or have suggestions for improvement, please email us at support@swiftcompress.com.")}
+              "If you encounter any problems with our service or have suggestions for improvement, please email us at support@autocompress.com.")}
           </p>
 
           <h2 className="text-2xl font-bold mt-6 mb-4 text-indigo-700">{t("business_inquiries", "Business Inquiries")}</h2>
           <p className="mb-4">
             {t("business_inquiries_detail",
-              "For business partnerships or other inquiries, please contact us at partnerships@swiftcompress.com.")}
+              "For business partnerships or other inquiries, please contact us at partnerships@autocompress.com.")}
           </p>
 
           <div className="mt-8 p-6 bg-white/80 backdrop-blur-sm rounded-2xl shadow-inner border border-indigo-100"> {/* Styled feedback form container */}
