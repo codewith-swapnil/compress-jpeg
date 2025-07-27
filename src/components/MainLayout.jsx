@@ -31,7 +31,7 @@ export default function MainLayout({ children }) {
               <path d="M12 20h9"></path>
               <path d="M12 4v16m0 0H3m9 0a9 9 0 1 0 0-18 9 9 0 0 0 0 18z"></path>
             </svg>
-            {t("title", { defaultValue: "AutoCompress" })}
+             AutoCompress
           </Link>
 
           {/* Desktop Navigation Links */}

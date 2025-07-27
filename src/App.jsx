@@ -204,24 +204,24 @@ export default function App() {
           name="keywords"
           content="image compressor, jpg compressor, png compressor, webp compressor, gif compressor, online image compressor, compress jpg, compress png, compress webp, compress gif, reduce image size, photo compressor, free image compressor, no upload"
         />
-        <link rel="canonical" href={`https://autocompress.vercel.app/${i18n.language !== "en" ? i18n.language + "/" : ""}`} />
+        <link rel="canonical" href={`https://compressimages.vercel.app/${i18n.language !== "en" ? i18n.language + "/" : ""}`} />
         {seoLangs.map((l) => (
           <link
             key={l.code}
             rel="alternate"
             hrefLang={l.code}
-            href={`https://autocompress.vercel.app/${l.code === "en" ? "" : l.code + "/"}`}
+            href={`https://compressimages.vercel.app/${l.code === "en" ? "" : l.code + "/"}`}
           />
         ))}
         <meta property="og:title" content={t("title", { defaultValue: "AutoCompress - Compress Images Online" }) + " - Free JPG, PNG, WebP, GIF Compressor"} />
         <meta property="og:description" content={t("meta_description", { defaultValue: "Compress JPG, PNG, WebP, and GIF images online for free. Drag & drop up to 20 images, adjust quality, preview results, and download compressed images or a ZIP archive. 100% privacy, no uploads." })} />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={`https://autocompress.vercel.app/${i18n.language !== "en" ? i18n.language + "/" : ""}`} />
-        <meta property="og:image" content="https://autocompress.vercel.app/og-image.png" />
+        <meta property="og:url" content={`https://compressimages.vercel.app/${i18n.language !== "en" ? i18n.language + "/" : ""}`} />
+        <meta property="og:image" content="https://compressimages.vercel.app/og-image.png" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={t("title", { defaultValue: "AutoCompress - Compress Images Online" }) + " - Free JPG, PNG, WebP, GIF Compressor"} />
         <meta name="twitter:description" content={t("meta_description", { defaultValue: "Compress JPG, PNG, WebP, and GIF images online for free. Drag & drop up to 20 images, adjust quality, preview results, and download compressed images or a ZIP archive. 100% privacy, no uploads." })} />
-        <meta name="twitter:image" content="https://autocompress.vercel.app/og-image.png" />
+        <meta name="twitter:image" content="https://compressimages.vercel.app/og-image.png" />
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-100 to-purple-50">
